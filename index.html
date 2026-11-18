@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EITA! T-shirts Femininas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Vitrine estilo loja de atacado: barra de aviso, header central, chips de categoria, banner, estilos em círculo, vitrines em grade */
+  --pink:#FF2E89; --pink-deep:#E0156F; --blush:#FFE6F1; --cream:#F7F1EA; --ink:#221A1E; --mute:#7A6870; --line:#EEDFE6; --white:#FFFFFF;
+  --font:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:22px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* barra de aviso */
+.bar{background:var(--blush);color:var(--ink);font-size:13px;text-align:center;padding:9px 16px;font-weight:500}
+.bar b{color:var(--pink-deep)}
+
+/* header */
+header.top{background:var(--white);position:sticky;top:0;z-index:30;border-bottom:1px solid transparent;transition:border-color .2s}
+header.top.scrolled{border-color:var(--line)}
+.hrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px 0}
+.attend{position:relative;justify-self:start}
+.attend>button{background:none;border:0;font-size:15px;font-weight:500;display:flex;gap:6px;align-items:center;padding:8px 0;color:var(--ink)}
+.menu{position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:8px;min-width:240px;box-shadow:0 14px 40px rgba(34,26,30,.12);display:none}
+.menu.open{display:block}
+.menu a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;text-decoration:none;font-size:14px}
+.menu a:hover{background:var(--blush)}
+.menu small{display:block;color:var(--mute);font-size:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo .mark{width:44px;height:44px;border-radius:12px;overflow:hidden;flex:none}.logo .mark img{width:100%;height:100%}
+[hidden]{display:none!important}
+.logo .word{font-weight:800;font-size:30px;letter-spacing:-.5px;color:var(--pink);line-height:1}
+.logo .word small{display:block;font-size:9.5px;letter-spacing:2.6px;color:var(--ink);font-weight:600;margin-top:3px}
+.hicons{justify-self:end;display:flex;gap:10px}
+.icon-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--white);display:grid;place-items:center;position:relative;color:var(--ink)}
+.icon-btn:hover{border-color:var(--pink)}
+.badge{position:absolute;top:-4px;right:-4px;background:var(--pink);color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:grid;place-items:center;padding:0 5px}
+
+/* busca + chips */
+.nav2{display:flex;gap:12px;align-items:center;padding-bottom:16px}
+.search{display:flex;align-items:center;background:#F6F1F3;border-radius:999px;padding:4px 4px 4px 18px;min-width:220px}
+.search input{border:0;background:none;font:inherit;font-size:14px;outline:none;width:100%;color:var(--ink)}
+.search button{width:36px;height:36px;border-radius:50%;border:0;background:var(--white);display:grid;place-items:center}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--white);border-radius:999px;padding:10px 16px;font-size:14px;color:var(--ink);white-space:nowrap}
+.chip:hover{border-color:var(--pink)}
+.chip.on{background:var(--pink);border-color:var(--pink);color:#fff}
+
+/* hero */
+.hero{position:relative;border-radius:var(--r);overflow:hidden;background:var(--blush)}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr 1fr;opacity:0;transition:opacity .6s}
+.slide.on{opacity:1;position:relative}
+.slide .copy{padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.kick{display:inline-flex;align-self:flex-start;background:var(--white);color:var(--pink-deep);font-size:12px;font-weight:700;letter-spacing:1.4px;padding:7px 14px;border-radius:999px;text-transform:uppercase}
+.slide h1,.slide h2{margin:0;font-size:clamp(34px,4.6vw,56px);line-height:1.02;font-weight:800;letter-spacing:-1px;text-wrap:balance}
+.slide h1 em,.slide h2 em{font-style:normal;color:var(--pink)}
+.slide p{margin:0;font-size:16px;color:#4A3B42;max-width:40ch}
+.cta{align-self:flex-start;display:inline-flex;gap:10px;align-items:center;background:var(--pink);color:#fff;border:0;border-radius:999px;padding:14px 24px;font-weight:700;font-size:15px;text-decoration:none}
+.cta:hover{background:var(--pink-deep)}
+.cta.ghost{background:var(--white);color:var(--ink)}
+.slide .pics{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;padding:20px 20px 20px 0;height:440px}
+.slide .pics img{min-height:0}
+.slide .pics img{width:100%;height:100%;object-fit:cover;border-radius:18px}
+.slide .pics img:first-child{grid-row:span 2}
+.slide.dark{background:var(--ink);color:#fff}
+.slide.dark p{color:#E8DCE1}
+.slide.dark .kick{background:var(--pink);color:#fff}
+.price-big{font-size:clamp(54px,7vw,88px);font-weight:800;color:var(--pink);line-height:.95;letter-spacing:-2px}
+.dots{position:absolute;bottom:16px;left:48px;display:flex;gap:8px;z-index:3}
+.dots button{width:9px;height:9px;border-radius:50%;border:0;background:rgba(34,26,30,.25);padding:0}
+.dots button.on{background:var(--pink);width:26px;border-radius:6px}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.85);display:grid;place-items:center;z-index:3}
+.arrow.l{left:12px}.arrow.r{right:12px}
+
+/* estilos */
+section{padding:44px 0 0}
+.styles{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;padding:6px 2px 4px}
+.styles::-webkit-scrollbar{display:none}
+.style{flex:none;width:122px;text-align:center;background:none;border:0;padding:0;color:var(--ink)}
+.style .ring{width:122px;height:122px;border-radius:50%;background:var(--blush);overflow:hidden;border:3px solid var(--blush);transition:border-color .2s}
+.style:hover .ring{border-color:var(--pink)}
+.style img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.style span{display:block;margin-top:10px;font-size:14px;font-weight:500}
+
+/* títulos de vitrine */
+.shead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:22px}
+.shead h2{grid-column:2;margin:0;font-size:32px;font-weight:800;letter-spacing:-.6px;text-align:center}
+.shead h2 span{color:var(--pink)}
+.more{justify-self:end;display:flex;gap:8px;align-items:center;background:none;border:0;font-size:14px;font-weight:500;color:var(--ink)}
+.more i{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-style:normal}
+
+/* grade */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{background:none;border:0;padding:0;text-align:left;color:var(--ink);display:flex;flex-direction:column;justify-content:flex-start;font:inherit}
+.card .ph{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:2/3;background:var(--cream)}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:opacity .35s,transform .5s}
+.card .ph img.alt{position:absolute;inset:0;opacity:0}
+.card:hover .ph img.alt{opacity:1}
+.card:hover .ph img{transform:scale(1.02)}
+.tag{position:absolute;top:12px;left:12px;background:var(--pink);color:#fff;font-size:11px;font-weight:700;letter-spacing:.8px;padding:5px 10px;border-radius:999px;text-transform:uppercase}
+.tag.alt{background:var(--white);color:var(--ink)}
+.quick{position:absolute;left:12px;right:12px;bottom:12px;background:var(--white);border-radius:999px;padding:10px;text-align:center;font-weight:600;font-size:13px;opacity:0;transform:translateY(6px);transition:.25s}
+.card:hover .quick{opacity:1;transform:none}
+.card h3{font-size:14.5px;font-weight:500;margin:12px 0 4px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .pr{font-size:14px;color:var(--mute)}
+.card .pr b{color:var(--ink);font-size:16px;font-weight:700}
+
+/* faixa de benefícios */
+.perks{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.perk{background:var(--cream);border-radius:18px;padding:18px;display:flex;gap:14px;align-items:center}
+.perk .ic{width:44px;height:44px;border-radius:12px;background:var(--white);display:grid;place-items:center;flex:none;color:var(--pink)}
+.perk b{display:block;font-size:14.5px}
+.perk span{font-size:13px;color:var(--mute)}
+
+/* catálogo */
+.toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+.toolbar .count{color:var(--mute);font-size:14px}
+select{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;background:var(--white);color:var(--ink)}
+.empty{grid-column:1/-1;text-align:center;padding:48px 0;color:var(--mute)}
+
+/* rodapé */
+footer{margin-top:64px;background:var(--ink);color:#EADDE3;padding:48px 0 28px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px}
+footer h4{margin:0 0 12px;color:#fff;font-size:15px}
+footer p,footer a{font-size:14px;color:#D9C9D0;line-height:1.8;text-decoration:none}
+footer a:hover{color:#fff}
+.fbottom{border-top:1px solid #3A2E33;margin-top:32px;padding-top:18px;font-size:12.5px;color:#A8959D;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* modal produto */
+.ov{position:fixed;inset:0;background:rgba(34,26,30,.45);z-index:50;display:none}
+.ov.open{display:block}
+.modal{position:fixed;z-index:60;left:50%;top:50%;transform:translate(-50%,-50%);width:min(980px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:var(--white);border-radius:24px;display:none}
+.modal.open{display:block}
+.mgrid{display:grid;grid-template-columns:86px 1fr 1fr;gap:18px;padding:22px}
+.thumbs{display:flex;flex-direction:column;gap:10px}
+.thumbs button{border:2px solid transparent;border-radius:14px;padding:0;overflow:hidden;background:none}
+.thumbs button.on{border-color:var(--pink)}
+.thumbs img{aspect-ratio:2/3;object-fit:cover}
+.mainimg{border-radius:20px;overflow:hidden;aspect-ratio:2/3;background:var(--cream)}
+.mainimg img{width:100%;height:100%;object-fit:cover}
+.info{display:flex;flex-direction:column;gap:16px;padding:6px 6px 6px 4px}
+.info h2{margin:0;font-size:24px;font-weight:600;line-height:1.25;text-wrap:balance}
+.info .ref{font-size:12px;color:var(--mute)}
+.info .from{font-size:13px;color:var(--mute)}
+.info .price{font-size:30px;font-weight:800}
+.info .price small{font-size:14px;font-weight:500;color:var(--mute)}
+.lbl{font-size:13px;font-weight:600;margin-bottom:8px}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}
+.sz{min-width:50px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--white);font-weight:600;font-size:14px;color:var(--ink)}
+.sz.on{border-color:var(--pink);background:var(--blush);color:var(--pink-deep)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.qty button{width:42px;height:42px;border:0;background:none;font-size:18px;color:var(--ink)}
+.qty span{min-width:30px;text-align:center;font-weight:600}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1;min-width:180px;white-space:nowrap;display:inline-flex;justify-content:center;gap:8px;align-items:center;border-radius:999px;padding:15px 20px;font-weight:700;font-size:15px;border:0;text-decoration:none}
+.btn.pk{background:var(--pink);color:#fff}
+.btn.pk:hover{background:var(--pink-deep)}
+.btn.wa{background:#1FAF5A;color:#fff}
+.btn.ol{background:var(--white);color:var(--ink);border:1px solid var(--line)}
+.desc{background:var(--cream);border-radius:16px;padding:14px 16px;font-size:13.5px;color:#4A3B42;line-height:1.6}
+.desc ul{margin:0;padding-left:18px}
+.x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:0;background:var(--white);box-shadow:0 2px 10px rgba(0,0,0,.08);display:grid;place-items:center;z-index:2}
+.hint{font-size:13px;color:var(--pink-deep);min-height:18px}
+
+/* sacola */
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--white);z-index:60;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--line)}
+.dh h3{margin:0;font-size:20px}
+.items{flex:1;overflow:auto;padding:12px 20px;display:flex;flex-direction:column;gap:14px}
+.it{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center}
+.it img{border-radius:12px;aspect-ratio:2/3;object-fit:cover}
+.it b{font-size:13.5px;font-weight:600;display:block;line-height:1.3}
+.it span{font-size:12.5px;color:var(--mute)}
+.it .rm{border:0;background:none;color:var(--mute);font-size:12px;text-decoration:underline}
+.df{border-top:1px solid var(--line);padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.tot{display:flex;justify-content:space-between;font-size:16px}
+.tot b{font-size:20px}
+.note{font-size:12.5px;color:var(--mute);line-height:1.5}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;z-index:70;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.wafloat{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;background:#1FAF5A;display:grid;place-items:center;box-shadow:0 10px 26px rgba(31,175,90,.35);z-index:40;text-decoration:none}
+
+@media (max-width:980px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .perks{grid-template-columns:repeat(2,1fr)}
+  .mgrid{grid-template-columns:1fr}
+  .thumbs{flex-direction:row;order:2}
+  .thumbs button{width:70px}
+}
+@media (max-width:720px){
+  .hrow{grid-template-columns:auto 1fr auto;gap:8px}
+  .logo{justify-self:center}
+  .logo .mark{width:36px;height:36px}
+  .logo .word{font-size:24px}
+  .attend>button span{display:none}
+  .nav2{flex-direction:column;align-items:stretch}
+  .slide{grid-template-columns:1fr}
+  .slide .pics{display:none}
+  .slide .copy{padding:32px 24px 48px}
+  .dots{left:24px}
+  .arrow{display:none}
+  .grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .shead h2{font-size:24px}
+  .shead{grid-template-columns:1fr auto}
+  .shead h2{grid-column:1;text-align:left}
+  .fgrid{grid-template-columns:1fr}
+  .perks{grid-template-columns:1fr}
+  .style{width:96px}.style .ring{width:96px;height:96px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bar"><b>A partir de R$39,90</b> · Preço de atacado direto pra você · Enviamos para todo o Brasil</div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="hrow">
+      <div class="attend">
+        <button id="attBtn" aria-expanded="false" aria-controls="attMenu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 12v4a2 2 0 0 0 2 2h1v-6H4"/></svg>
+          <span>Atendimento</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="menu" id="attMenu">
+          <a href="https://wa.me/556283282222?text=Oi%2C%20EITA!%20Quero%20ajuda%20com%20um%20pedido" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1FAF5A"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8a11.6 11.6 0 0 1-4.5-4c-.3-.5-1-1.6-1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.2 1.4Z"/></svg>
+            <span>WhatsApp<small>(62) 98328-2222</small></span>
+          </a>
+          <a href="https://www.instagram.com/useeita.tshirts/" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF2E89" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#FF2E89"/></svg>
+            <span>Instagram<small>@useeita.tshirts</small></span>
+          </a>
+          <a href="#" data-open="trocas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg>
+            <span>Trocas e envios<small>Como funciona</small></span>
+          </a>
+        </div>
+      </div>
+      <a class="logo" href="#top" aria-label="EITA! página inicial">
+        <span class="mark"><img src="logo.png" alt="" width="44" height="44"></span>
+        <span class="word">EITA!<small>T-SHIRTS FEMININAS</small></span>
+      </a>
+      <div class="hicons">
+        <a class="icon-btn" href="https://www.instagram.com/useeita.tshirts/" target="_blank" rel="noopener" aria-label="Instagram da EITA!">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+        </a>
+        <button class="icon-btn" id="bagBtn" aria-label="Abrir sacola">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="badge" id="bagCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav2">
+      <form class="search" id="searchForm" role="search">
+        <label for="q" class="sr" style="position:absolute;left:-9999px">Pesquisar</label>
+        <input id="q" placeholder="Pesquisar" autocomplete="off">
+        <button aria-label="Pesquisar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero" id="hero">
+    <div class="slide on" data-i="0">
+      <div class="copy">
+        <span class="kick">Coleção nova</span>
+        <h1>EITA, que <em>t-shirt!</em></h1>
+        <p>Bordado delicado, estampa com personalidade e aquele caimento que veste bem do P ao G3.</p>
+        <a class="cta" href="#catalogo" data-cat="Bordadas">Ver os bordados
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="pics"><img src="p0_0.jpg" alt="T-shirt bordada preta com ramos de flores"><img src="p1_0.jpg" alt="T-shirt amarela bordada com mini cactos"><img src="p4_0.jpg" alt="T-shirt bege bordada com folhas de outono"></div>
+    </div>
+    <div class="slide dark" data-i="1">
+      <div class="copy">
+        <span class="kick">Preço de atacado direto pra você</span>
+        <div><div style="font-size:15px;margin-bottom:6px">a partir de</div><div class="price-big">R$39,90</div></div>
+        <p>Você compra a unidade pagando preço de atacado. Escolhe as peças, monta a sacola e fecha o pedido com a gente no WhatsApp.</p>
+        <a class="cta" href="#catalogo">Montar minha sacola</a>
+      </div>
+      <div class="pics"><img src="p15_0.jpg" alt="T-shirt branca estampa onça"><img src="p26_0.jpg" alt="T-shirt preta Cherry Sweet Girl"><img src="p28_0.jpg" alt="T-shirt rosa estampa onça"></div>
+    </div>
+    <div class="slide" data-i="2" style="background:#F7F1EA">
+      <div class="copy">
+        <span class="kick">Compre pelo WhatsApp</span>
+        <h2>Atendimento <em>de pertinho</em>, envio pra todo o Brasil.</h2>
+        <p>Tirou dúvida de tamanho, quer ver mais cores ou combinar o frete? Fala direto com a EITA!.</p>
+        <a class="cta" style="background:#1FAF5A" href="https://wa.me/556283282222?text=Oi%2C%20EITA!%20Vim%20pelo%20site%20e%20quero%20ver%20o%20cat%C3%A1logo%20%F0%9F%98%8D" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+      </div>
+      <div class="pics"><img src="p71_0.jpg" alt="T-shirt Verona verde"><img src="p62_0.jpg" alt="T-shirt oversized bicolor"><img src="p40_0.jpg" alt="T-shirt risca de giz amarela"></div>
+    </div>
+    <button class="arrow l" id="prev" aria-label="Banner anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 6-6 6 6 6"/></svg></button>
+    <button class="arrow r" id="next" aria-label="Próximo banner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <section aria-label="Estilos">
+    <div class="styles" id="styles"></div>
+  </section>
+
+  <section>
+    <div class="shead"><h2>Lança<span>mentos</span></h2><button class="more" data-cat="Bordadas">Ver mais <i>›</i></button></div>
+    <div class="grid" id="launch"></div>
+  </section>
+
+  <section>
+    <div class="perks">
+      <div class="perk"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><b>Enviamos p/ todo Brasil</b><span>Frete combinado no WhatsApp</span></div></div>
+      <div class="perk"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12Z"/></svg></div><div><b>Compra pelo WhatsApp</b><span>Atendimento humano</span></div></div>
+      <div class="perk"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c0 2-2 3-4 3S8 5 8 3Z"/></svg></div><div><b>Do P ao G3</b><span>Grade varia por modelo</span></div></div>
+      <div class="perk"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div><div><b>Novidades toda semana</b><span>Siga @useeita.tshirts</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><h2>Desta<span>ques</span></h2><button class="more" data-cat="Estampadas">Ver mais <i>›</i></button></div>
+    <div class="grid" id="feat"></div>
+  </section>
+
+  <section id="catalogo">
+    <div class="shead"><h2>Catá<span>logo</span></h2></div>
+    <div class="toolbar">
+      <span class="count" id="count"></span>
+      <label style="display:flex;gap:8px;align-items:center;font-size:14px">Ordenar
+        <select id="sort"><option value="new">Novidades</option><option value="low">Menor preço</option><option value="high">Maior preço</option><option value="az">A a Z</option></select>
+      </label>
+    </div>
+    <div class="grid" id="all"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="logo" style="margin-bottom:12px"><span class="mark"><img src="logo.png" alt="" width="44" height="44"></span><span class="word">EITA!<small style="color:#EADDE3">T-SHIRTS FEMININAS</small></span></div>
+        <p style="max-width:36ch">Estampa, bordado e brilho. T-shirts femininas com preço de atacado direto pra você.</p>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <a href="https://wa.me/556283282222" target="_blank" rel="noopener">WhatsApp (62) 98328-2222</a><br>
+        <a href="https://www.instagram.com/useeita.tshirts/" target="_blank" rel="noopener">Instagram @useeita.tshirts</a>
+      </div>
+      <div>
+        <h4>Informações</h4>
+        <a href="#" data-open="trocas">Trocas e envios</a><br>
+        <a href="#" data-open="medidas">Tamanhos e medidas</a>
+      </div>
+    </div>
+    <div class="fbottom"><span>EITA! T-shirts Femininas © 2026</span><span>Pedidos e pagamentos pelo WhatsApp</span></div>
+  </div>
+</footer>
+
+<a class="wafloat" href="https://wa.me/556283282222?text=Oi%2C%20EITA!%20Vim%20pelo%20site%20%F0%9F%98%8D" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8a11.6 11.6 0 0 1-4.5-4c-.3-.5-1-1.6-1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.2 1.4Z"/></svg>
+</a>
+
+<div class="ov" id="ov"></div>
+
+<div class="modal" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+  <button class="x" data-close aria-label="Fechar">✕</button>
+  <div class="mgrid">
+    <div class="thumbs" id="pmThumbs"></div>
+    <div class="mainimg"><img id="pmImg" alt=""></div>
+    <div class="info">
+      <span class="ref" id="pmCat"></span>
+      <h2 id="pmTitle"></h2>
+      <div><div class="from">A partir de</div><div class="price" id="pmPrice"></div></div>
+      <div><div class="lbl">Cor: <span id="pmCol" style="font-weight:500"></span></div></div>
+      <div><div class="lbl">Tamanho</div><div class="sizes" id="pmSizes"></div></div>
+      <div><div class="lbl">Quantidade</div><div class="qty"><button id="qm" aria-label="Diminuir">−</button><span id="qv">1</span><button id="qp" aria-label="Aumentar">+</button></div></div>
+      <div class="hint" id="pmHint"></div>
+      <div class="actions">
+        <button class="btn pk" id="addBag">Adicionar à sacola</button>
+        <a class="btn wa" id="buyNow" href="#" target="_blank" rel="noopener">Comprar no WhatsApp</a>
+      </div>
+      <div class="desc" id="pmDesc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="info" role="dialog" aria-modal="true" style="width:min(560px,calc(100% - 24px))">
+  <button class="x" data-close aria-label="Fechar">✕</button>
+  <div style="padding:28px" id="infoBody"></div>
+</div>
+
+<aside class="drawer" id="bag" aria-label="Sacola">
+  <div class="dh"><h3>Sua sacola</h3><button class="icon-btn" data-close aria-label="Fechar sacola">✕</button></div>
+  <div class="items" id="items"></div>
+  <div class="df">
+    <div class="tot"><span>Subtotal</span><b id="sub">R$ 0,00</b></div>
+    <p class="note">O frete é combinado no WhatsApp depois que você enviar o pedido. A EITA! confirma a disponibilidade de cada peça e tamanho antes do pagamento.</p>
+    <a class="btn wa" id="checkout" href="#" target="_blank" rel="noopener">Finalizar pedido no WhatsApp</a>
+    <span class="note" style="text-align:center">WhatsApp (62) 98328-2222</span>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const P = [{"id": 0, "n": "T-shirt Bordada Ramos de Flores Brancas", "c": "Bordadas", "p": 49.9, "sz": ["P", "G", "GG", "G1", "G2"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p0_0.jpg", "p0_1.jpg"]}, {"id": 1, "n": "T-shirt Bordada Mini Cactos", "c": "Bordadas", "p": 49.9, "sz": ["M", "G", "GG", "G1", "G2"], "col": "Flash Yellow", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' em Riabana Canelada e costura ombro a ombro.", "Bordado", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 100% algodão"], "im": ["p1_0.jpg", "p1_1.jpg"]}, {"id": 2, "n": "T-shirt Bordada Cacto", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p2_0.jpg", "p2_1.jpg"]}, {"id": 3, "n": "T-shirt Bordada Flores Margaridas Total", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "G2"], "col": "Verde Folha Escuro", "d": [], "im": ["p3_0.jpg", "p3_1.jpg"]}, {"id": 4, "n": "T-shirt Bordada Folhas de Outono Bege", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Bege Sepia", "d": [], "im": ["p4_0.jpg", "p4_1.jpg"]}, {"id": 5, "n": "T-shirt Bordada Lírios Amarelos", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Marrom Cardamom", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p5_0.jpg", "p5_1.jpg"]}, {"id": 6, "n": "T-shirt Bordada Amor Corações Mangas", "c": "Bordadas", "p": 49.9, "sz": ["P", "GG", "G1"], "col": "Bege Ethereal", "d": [], "im": ["p6_0.jpg", "p6_1.jpg"]}, {"id": 7, "n": "T-shirt Bordada Folhas de Outono", "c": "Bordadas", "p": 49.9, "sz": ["G2"], "col": "Marrom Mocha Mousse", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' em Riabana Canelada e costura ombro a ombro.", "Bordado", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 100% algodão"], "im": ["p7_0.jpg", "p7_1.jpg"]}, {"id": 8, "n": "T-shirt Bordada Mini Corações Brancos", "c": "Bordadas", "p": 49.9, "sz": ["G2"], "col": "Vermelho Mandarim", "d": [], "im": ["p8_0.jpg", "p8_1.jpg"]}, {"id": 9, "n": "T-shirt Bordada Ramo de Flores Corações", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Branco", "d": [], "im": ["p9_0.jpg", "p9_1.jpg"]}, {"id": 10, "n": "T-shirt Bordada Borboleta Dourada Vazada", "c": "Bordadas", "p": 49.9, "sz": ["P", "G", "GG", "G1", "G2"], "col": "Areia Queimada", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' com ribana e costura ombro a ombro.", "Bordado", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 100% algodão"], "im": ["p10_0.jpg", "p10_1.jpg"]}, {"id": 11, "n": "T-shirt Bordada Corações Contornos Coloridos", "c": "Bordadas", "p": 49.9, "sz": ["G2"], "col": "Flash Yellow", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' com ribana e costura ombro a ombro.", "Bordado", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 100% algodão"], "im": ["p11_0.jpg", "p11_1.jpg"]}, {"id": 12, "n": "T-shirt Bordada Você É O Suficiente", "c": "Bordadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G2"], "col": "Branco", "d": [], "im": ["p12_0.jpg", "p12_1.jpg"]}, {"id": 13, "n": "Cropped Max Onça Finesse", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G3"], "col": "Bege Concha", "d": [], "im": ["p13_0.jpg", "p13_1.jpg"]}, {"id": 14, "n": "T-shirt Poodle Listrinhas", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p14_0.jpg", "p14_1.jpg"]}, {"id": 15, "n": "T-shirt Onça Couture", "c": "Estampadas", "p": 39.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Branco", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p15_0.jpg", "p15_1.jpg"]}, {"id": 16, "n": "T-shirt Wild Chic", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G2", "G3"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p16_0.jpg", "p16_1.jpg"]}, {"id": 17, "n": "T-shirt Glam Cake", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G2", "G3"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p17_0.jpg", "p17_1.jpg"]}, {"id": 18, "n": "T-shirt Ursinho Lollipop Love", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "G1", "G2"], "col": "Roxo Galaxy", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p18_0.jpg", "p18_1.jpg"]}, {"id": 19, "n": "T-shirt Glampop", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "GG", "G1"], "col": "Verde Esmeralda", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p19_0.jpg", "p19_1.jpg"]}, {"id": 20, "n": "T-shirt Fluffy Besties Cachorrinhos", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1"], "col": "Bege Imagine", "d": [], "im": ["p20_0.jpg", "p20_1.jpg"]}, {"id": 21, "n": "T-shirt Cachorrinha Simply Chic", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Roxo Mirtilo", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p21_0.jpg", "p21_1.jpg"]}, {"id": 22, "n": "T-shirt Cachorrinha Bolsa Cuteness", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Jelly Mint", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p22_0.jpg", "p22_1.jpg"]}, {"id": 23, "n": "T-shirt Ursinha Effortless Style", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p23_0.jpg", "p23_1.jpg"]}, {"id": 24, "n": "T-shirt Summer Sunny Charm", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p24_0.jpg", "p24_1.jpg"]}, {"id": 25, "n": "T-shirt Vogue Feline", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Bege Ethereal", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p25_0.jpg", "p25_1.jpg"]}, {"id": 26, "n": "T-shirt Cherry Sweet Girl", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p26_0.jpg", "p26_1.jpg"]}, {"id": 27, "n": "T-shirt Onça Glamour", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Amarelo Castanha", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p27_0.jpg", "p27_1.jpg"]}, {"id": 28, "n": "T-shirt Majestic Grace Onça", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Rosa Bloom", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p28_0.jpg", "p28_1.jpg"]}, {"id": 29, "n": "T-shirt Flores Amour", "c": "Estampadas", "p": 49.9, "sz": ["M", "G3"], "col": "Bege Gengibre", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p29_0.jpg", "p29_1.jpg"]}, {"id": 30, "n": "T-shirt Ursinha Good Vibes", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Lime Cream", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p30_0.jpg", "p30_1.jpg"]}, {"id": 31, "n": "T-shirt Gato Catitude On", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Cinza Gray Light", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p31_0.jpg", "p31_1.jpg"]}, {"id": 32, "n": "T-shirt Ice Cream Shop Cachorrinho", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Verde Botanica", "d": [], "im": ["p32_0.jpg", "p32_1.jpg"]}, {"id": 33, "n": "T-shirt Cachorrinho Sweetie", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Marrom Cardamom", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p33_0.jpg", "p33_1.jpg"]}, {"id": 34, "n": "T-shirt Charm Cachorrinho na Bolsa", "c": "Estampadas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2", "G3"], "col": "Lime Cream", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p34_0.jpg", "p34_1.jpg"]}, {"id": 35, "n": "T-shirt Gola Alta Jesus Aplicação", "c": "Gola Alta", "p": 49.9, "sz": ["GG", "G1", "G2"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p35_0.jpg", "p35_1.jpg"]}, {"id": 36, "n": "T-shirt Gola Alta Coração Vermelho Aplicação", "c": "Gola Alta", "p": 59.88, "sz": ["P", "GG", "G2"], "col": "Vermelho Mandarim", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p36_0.jpg", "p36_1.jpg"]}, {"id": 37, "n": "T-shirt Gola Alta Coração Linha Aplicação", "c": "Gola Alta", "p": 59.88, "sz": ["P", "GG", "G2"], "col": "Vermelho Mandarim", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p37_0.jpg", "p37_1.jpg"]}, {"id": 38, "n": "T-shirt Gola Alta Laço Finding", "c": "Gola Alta", "p": 49.9, "sz": ["GG", "G1", "G2"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p38_0.jpg", "p38_1.jpg"]}, {"id": 39, "n": "T-shirt Gola Alta Fé Florzinha", "c": "Gola Alta", "p": 49.9, "sz": ["GG", "G1", "G2"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p39_0.jpg", "p39_1.jpg"]}, {"id": 40, "n": "T-shirt Risca de Giz Flash Yellow", "c": "Listradas", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Flash Yellow", "d": ["O tecido Cotton Com"], "im": ["p40_0.jpg", "p40_1.jpg"]}, {"id": 41, "n": "T-shirt Duna Verde Esmeralda com Off", "c": "Listradas", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Verde Esmeralda com Off", "d": [], "im": ["p41_0.jpg"]}, {"id": 42, "n": "T-shirt Duna Off Listras Vermelhas", "c": "Listradas", "p": 59.88, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Off Listras Vermelhas", "d": ["Tshirt com modelagem tradicional, gola''O'' com gola em ribana e costura ombro à ombro", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 93% algodão e 7% elastano", "Costura: 100% ponto interlock"], "im": ["p42_0.jpg", "p42_1.jpg"]}, {"id": 43, "n": "T-shirt Duna Off Listras Verde Oriente", "c": "Listradas", "p": 59.88, "sz": ["P", "M", "G", "GG", "G2"], "col": "Off Listras Verde Oriente", "d": ["Tshirt com modelagem tradicional, gola''O'' com gola em ribana e costura ombro à ombro", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 93% algodão e 7% elastano", "Costura: 100% ponto interlock"], "im": ["p43_0.jpg", "p43_1.jpg"]}, {"id": 44, "n": "T-shirt Duna Off Listras Rosa", "c": "Listradas", "p": 59.88, "sz": ["P", "M", "G", "GG", "G2"], "col": "Off Listras Rosa", "d": ["Tshirt com modelagem tradicional, gola''O'' com gola em ribana e costura ombro à ombro", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 93% algodão e 7% elastano", "Costura: 100% ponto interlock"], "im": ["p44_0.jpg", "p44_1.jpg"]}, {"id": 45, "n": "T-shirt Duna Off Listras Pretas", "c": "Listradas", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Off Listras Pretas", "d": ["Tshirt com modelagem tradicional, gola''O'' com gola em ribana e costura ombro à ombro", "Tecido: Algodão Menegotti Fio 30.1 Penteado", "Composição 93% algodão e 7% elastano", "Costura: 100% ponto interlock"], "im": ["p45_0.jpg", "p45_1.jpg"]}, {"id": 46, "n": "T-shirt Bicolor Nossa Senhora Rosa Bebê", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Off Punho Rosa Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p46_0.jpg", "p46_1.jpg"]}, {"id": 47, "n": "T-shirt Bicolor Nossa Senhora Marrom", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG", "G2"], "col": "Bicolor Off Punho Marrom Cynnamom", "d": [], "im": ["p47_0.jpg", "p47_1.jpg"]}, {"id": 48, "n": "T-shirt Bicolor Nossa Senhora Azul Bebê", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Off Punho Azul Bebe", "d": [], "im": ["p48_0.jpg", "p48_1.jpg"]}, {"id": 49, "n": "T-shirt Bicolor Nossa Senhora Azul Marinho", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Off com Punho Azul Marinho", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p49_0.jpg", "p49_1.jpg"]}, {"id": 50, "n": "T-shirt Bicolor Cereja Organic & Natural", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Off com Punho Azul Marinho", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p50_0.jpg", "p50_1.jpg"]}, {"id": 51, "n": "T-shirt Bicolor Ursinho Coffee", "c": "Bicolor", "p": 49.9, "sz": ["P", "M", "G", "GG", "G2"], "col": "Bicolor Off Punho Marrom Cynnamom", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p51_0.jpg", "p51_1.jpg"]}, {"id": 53, "n": "Cropped Max Borboletas Your Wings", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Verde Frescor", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p53_0.jpg", "p53_1.jpg"]}, {"id": 54, "n": "Cropped Max Caffeinated", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1"], "col": "Amarelo Sahara", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p54_0.jpg", "p54_1.jpg"]}, {"id": 55, "n": "Cropped Max Ursinho Good Coffee", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Marrom Cynnamon", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p55_0.jpg", "p55_1.jpg"]}, {"id": 56, "n": "Cropped Max A Touch of Glamour Cereja", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Branco", "d": [], "im": ["p56_0.jpg", "p56_1.jpg"]}, {"id": 57, "n": "Cropped Max Girl Get Your Gatinha", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1"], "col": "Laranja Candy", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p57_0.jpg", "p57_1.jpg"]}, {"id": 58, "n": "Cropped Max Teddys Coffee Club", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Marrom Cardamom", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p58_0.jpg", "p58_1.jpg"]}, {"id": 59, "n": "Cropped Max Sparkle Attitude Dálmata", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Rosa Happy Moments", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p59_0.jpg", "p59_1.jpg"]}, {"id": 60, "n": "Cropped Max Floral Mood Ursinho", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1"], "col": "Rosa Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p60_0.jpg", "p60_1.jpg"]}, {"id": 61, "n": "Cropped Max Cachorrinho Pure Love", "c": "Croppeds", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Cinza Gray Light", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado", "Costura:"], "im": ["p61_0.jpg", "p61_1.jpg"]}, {"id": 62, "n": "T-shirt Max Bicolor Amarelo Bebê com Rosa Bebê", "c": "Oversized", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Amarelo Bebe com Rosa Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p62_0.jpg", "p62_1.jpg"]}, {"id": 63, "n": "T-shirt Max Bicolor Rosa Bebê Com Amarelo Bebê", "c": "Oversized", "p": 59.88, "sz": ["M", "G", "GG"], "col": "Rosa Bebe com Amarelo Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p63_0.jpg", "p63_1.jpg"]}, {"id": 64, "n": "T-shirt Max Bicolor Verde Frescor Com Amarelo Bebê", "c": "Oversized", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Verde Frescor com Amarelo Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p64_0.jpg", "p64_1.jpg"]}, {"id": 65, "n": "T-shirt Max Bicolor Azul Skyway Com Rosa Bebê", "c": "Oversized", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Azul Skyway com Rosa Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p65_0.jpg", "p65_1.jpg"]}, {"id": 66, "n": "T-shirt Max Bicolor We Lived A Summer", "c": "Oversized", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Amarelo Bebe com Rosa Bebe", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p66_0.jpg", "p66_1.jpg"]}, {"id": 67, "n": "T-shirt Confort Rosa Seco", "c": "Confort", "p": 59.88, "sz": ["P", "M"], "col": "Rosa Seco", "d": [], "im": ["p67_0.jpg", "p67_1.jpg"]}, {"id": 68, "n": "T-shirt Cotton Confort Verde Noturno", "c": "Confort", "p": 59.88, "sz": ["P", "M"], "col": "Verde Noturno", "d": ["Tshirt Cotton Confort com modelagem tradicional e gola''O''", "com gola em ribana lisa e costura ombro à ombro", "Estampa: Lisa", "Tecido: Malha/ algodão"], "im": ["p68_0.jpg", "p68_1.jpg"]}, {"id": 69, "n": "T-shirt Cotton Confort Marrom Cardamom", "c": "Confort", "p": 59.88, "sz": ["P", "M", "GG"], "col": "Marrom Cardamom", "d": ["Tshirt Cotton Confort com modelagem tradicional e gola''O''", "com gola em ribana lisa e costura ombro à ombro", "Estampa: Lisa", "Tecido: Malha/ algodão"], "im": ["p69_0.jpg", "p69_1.jpg"]}, {"id": 70, "n": "T-shirt Cotton Confort Amarelo Amber", "c": "Confort", "p": 59.88, "sz": ["P", "M", "GG"], "col": "Amarelo Amber", "d": ["Tshirt Cotton Confort com modelagem tradicional e gola''O''", "com gola em ribana lisa e costura ombro à ombro", "Estampa: Lisa", "Tecido: Malha/ algodão"], "im": ["p70_0.jpg", "p70_1.jpg"]}, {"id": 71, "n": "T-shirt Verona Stone Green", "c": "Verona", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Stone Green", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p71_0.jpg", "p71_1.jpg"]}, {"id": 72, "n": "T-shirt Verona Preta", "c": "Verona", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Preto", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p72_0.jpg", "p72_1.jpg"]}, {"id": 73, "n": "T-shirt Verona Off", "c": "Verona", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Off White", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão penteado"], "im": ["p73_0.jpg", "p73_1.jpg"]}, {"id": 74, "n": "T-shirt Gola Polo Risca de Giz Verde Folha Seca", "c": "Gola Polo", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Verde Folha Seca", "d": ["TSHIRT GOLA POLO RISCA DE GIZ", "O tecido Cotton Com"], "im": ["p74_0.jpg", "p74_1.jpg"]}, {"id": 75, "n": "T-shirt Gola Polo Risca de Giz Preta", "c": "Gola Polo", "p": 59.88, "sz": ["P", "M", "G", "GG"], "col": "Preto", "d": ["TSHIRT GOLA POLO RISCA DE GIZ", "O tecido Cotton Com"], "im": ["p75_0.jpg", "p75_1.jpg"]}, {"id": 76, "n": "T-shirt Gola Polo Risca de Giz Off Listras Pretas", "c": "Gola Polo", "p": 59.88, "sz": ["G"], "col": "Off Listras Pretas", "d": ["TSHIRT GOLA POLO RISCA DE GIZ", "O tecido Cotton Com"], "im": ["p76_0.jpg", "p76_1.jpg"]}, {"id": 77, "n": "T-shirt com Bolsinho Bloom With Grace", "c": "Bolsinho", "p": 49.9, "sz": ["P", "M", "G", "GG", "G1", "G2"], "col": "Cinza Gray Light", "d": ["Malha de algodão com toque suave e sensorial aconchegante, oferecendo conforto e boa aceitação do público.", "Composição: 100% algodão Sustentável", "Tecido: Fio 30.1 algodão pen"], "im": ["p77_0.jpg", "p77_1.jpg"]}, {"id": 79, "n": "T-shirt Bolsinho Lisa Marrom Cynnamom", "c": "Bolsinho", "p": 49.9, "sz": ["P", "G1"], "col": "Marrom Cynnamon", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' com bolso lateral,  Gola em Ribana Canelada e costura ombro a ombro.", "Estampa: Liso/", "A estampa e o tecido podem variar a cor de acordo com a edição da foto ou iluminação ambiente", "Tecido: Algodão Menegotti Fio 30.1 Penteado"], "im": ["p79_0.jpg", "p79_1.jpg"]}, {"id": 80, "n": "T-shirt Bolsinho Sol Lua Abraça Teus Ciclos", "c": "Bolsinho", "p": 49.9, "sz": ["P", "M", "G", "GG"], "col": "Laranja Rust", "d": ["Tshirt com modelagem tradicional de camiseta gola''O'' com bolso lateral,  Gola em Ribana Canelada e costura ombro a ombro.", "Estampa: Liso/", "A estampa e o tecido podem variar a cor de acordo com a edição da foto ou iluminação ambiente", "Tecido: Algodão Menegotti Fio 30.1 Penteado"], "im": ["p80_0.jpg", "p80_1.jpg"]}];
+const WA = "556283282222";
+const CATS = ["Bordadas","Estampadas","Croppeds","Gola Alta","Listradas","Bicolor","Oversized","Confort","Verona","Gola Polo","Bolsinho"];
+const STYLE_IMG = {"Bordadas":10,"Estampadas":25,"Croppeds":56,"Gola Alta":36,"Listradas":42,"Bicolor":46,"Oversized":64,"Confort":67,"Verona":72,"Gola Polo":74,"Bolsinho":77};
+const LAUNCH = [0,1,9,10,4,5,12,3];
+const FEAT = [15,26,28,25,56,62,71,42];
+const brl = v => "R$ " + v.toFixed(2).replace(".", ",");
+const byId = Object.fromEntries(P.map(p => [p.id, p]));
+const $ = s => document.querySelector(s);
+
+let filter = {cat:null, q:""};
+
+function card(p, tag){
+  const b = document.createElement("button");
+  b.className = "card";
+  b.setAttribute("aria-label", p.n + ", " + brl(p.p));
+  b.innerHTML = `<div class="ph"><img src="${p.im[0]}" alt="${p.n}" loading="lazy">${p.im[1]?`<img class="alt" src="${p.im[1]}" alt="" loading="lazy">`:""}${tag?`<span class="tag ${tag==="Destaque"?"alt":""}">${tag}</span>`:""}<span class="quick">Ver tamanhos</span></div><h3>${p.n}</h3><div class="pr">A partir de <b>${brl(p.p)}</b></div>`;
+  b.onclick = () => openProduct(p.id);
+  return b;
+}
+function fill(el, ids, tag){ el.innerHTML=""; ids.forEach(i => byId[i] && el.appendChild(card(byId[i], tag))); }
+
+/* chips e estilos */
+const chips = $("#chips");
+const all = document.createElement("button"); all.className="chip on"; all.textContent="Todas"; all.onclick=()=>setCat(null); chips.appendChild(all);
+CATS.forEach(c=>{const b=document.createElement("button"); b.className="chip"; b.textContent=c; b.dataset.c=c; b.onclick=()=>setCat(c); chips.appendChild(b);});
+const styles = $("#styles");
+CATS.forEach(c=>{const p=byId[STYLE_IMG[c]]; const b=document.createElement("button"); b.className="style"; b.innerHTML=`<div class="ring"><img src="${p.im[0]}" alt="" loading="lazy"></div><span>${c}</span>`; b.onclick=()=>setCat(c); styles.appendChild(b);});
+
+function setCat(c, scroll=true){
+  filter.cat=c;
+  document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on", (x.dataset.c||null)===c));
+  render();
+  if(scroll) document.getElementById("catalogo").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+}
+document.querySelectorAll("[data-cat]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault(); setCat(b.dataset.cat);}));
+
+function render(){
+  const q = filter.q.trim().toLowerCase();
+  let list = P.filter(p => (!filter.cat || p.c===filter.cat) && (!q || (p.n+" "+p.c+" "+p.col).toLowerCase().includes(q)));
+  const s = $("#sort").value;
+  if(s==="low") list.sort((a,b)=>a.p-b.p);
+  if(s==="high") list.sort((a,b)=>b.p-a.p);
+  if(s==="az") list.sort((a,b)=>a.n.localeCompare(b.n));
+  const el = $("#all"); el.innerHTML="";
+  list.forEach(p=>el.appendChild(card(p, LAUNCH.includes(p.id)?"Lançamento":null)));
+  if(!list.length) el.innerHTML = `<div class="empty">Nenhuma peça encontrada. Tente outra palavra ou <a href="https://wa.me/${WA}" target="_blank" rel="noopener">pergunte no WhatsApp</a>.</div>`;
+  $("#count").textContent = `${list.length} ${list.length===1?"peça":"peças"}${filter.cat?" em "+filter.cat:""}${q?` para “${filter.q}”`:""}`;
+}
+$("#sort").onchange = render;
+$("#searchForm").onsubmit = e => { e.preventDefault(); filter.q=$("#q").value; setCat(filter.cat); };
+$("#q").oninput = e => { filter.q=e.target.value; render(); };
+
+fill($("#launch"), LAUNCH, "Lançamento");
+fill($("#feat"), FEAT, "Destaque");
+render();
+
+/* banner */
+const slides=[...document.querySelectorAll(".slide")]; let si=0;
+const dots=$("#dots"); slides.forEach((_,i)=>{const d=document.createElement("button"); d.setAttribute("aria-label","Banner "+(i+1)); d.onclick=()=>go(i); dots.appendChild(d);});
+function go(i){ si=(i+slides.length)%slides.length; slides.forEach((s,k)=>s.classList.toggle("on",k===si)); [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===si)); }
+go(0); $("#prev").onclick=()=>go(si-1); $("#next").onclick=()=>go(si+1);
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){ let t=setInterval(()=>go(si+1),6000); $("#hero").addEventListener("mouseenter",()=>clearInterval(t)); }
+
+/* header */
+addEventListener("scroll",()=>$("#top").classList.toggle("scrolled",scrollY>10));
+$("#attBtn").onclick=e=>{e.stopPropagation(); const m=$("#attMenu"); m.classList.toggle("open"); $("#attBtn").setAttribute("aria-expanded",m.classList.contains("open"));};
+document.addEventListener("click",()=>$("#attMenu").classList.remove("open"));
+
+/* modais */
+const ov=$("#ov");
+function closeAll(){ document.querySelectorAll(".modal.open,.drawer.open").forEach(x=>x.classList.remove("open")); ov.classList.remove("open"); document.body.style.overflow=""; }
+function openLayer(el){ closeAll(); el.classList.add("open"); ov.classList.add("open"); document.body.style.overflow="hidden"; }
+ov.onclick=closeAll; document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeAll);
+addEventListener("keydown",e=>{ if(e.key==="Escape") closeAll(); });
+
+let cur=null, size=null, qty=1;
+function openProduct(id){
+  const p=byId[id]; cur=p; size=null; qty=1;
+  $("#pmTitle").textContent=p.n; $("#pmCat").textContent=p.c;
+  $("#pmPrice").innerHTML=`${brl(p.p)} <small>/ unid.</small>`;
+  $("#pmCol").textContent=p.col;
+  $("#pmImg").src=p.im[0]; $("#pmImg").alt=p.n;
+  const th=$("#pmThumbs"); th.innerHTML="";
+  p.im.forEach((src,i)=>{const b=document.createElement("button"); b.className=i?"":"on"; b.setAttribute("aria-label","Foto "+(i+1)); b.innerHTML=`<img src="${src}" alt="">`; b.onclick=()=>{$("#pmImg").src=src; [...th.children].forEach(x=>x.classList.remove("on")); b.classList.add("on");}; th.appendChild(b);});
+  const sz=$("#pmSizes"); sz.innerHTML="";
+  p.sz.forEach(s=>{const b=document.createElement("button"); b.className="sz"; b.textContent=s; b.onclick=()=>{size=s; [...sz.children].forEach(x=>x.classList.toggle("on",x===b)); $("#pmHint").textContent=""; updBuy();}; sz.appendChild(b);});
+  $("#qv").textContent=qty; $("#pmHint").textContent="";
+  const lines=(p.d&&p.d.length?p.d:["T-shirt feminina em malha de algodão."]).concat(["As medidas podem variar 2 cm para mais ou para menos."]);
+  $("#pmDesc").innerHTML="<ul>"+lines.map(l=>`<li>${l.replace(/</g,"&lt;")}</li>`).join("")+"</ul>";
+  updBuy(); openLayer($("#pm"));
+}
+$("#qm").onclick=()=>{qty=Math.max(1,qty-1); $("#qv").textContent=qty; updBuy();};
+$("#qp").onclick=()=>{qty=Math.min(50,qty+1); $("#qv").textContent=qty; updBuy();};
+function updBuy(){
+  const p=cur; if(!p) return;
+  const msg=`Oi, EITA! Quero esta peça:\n\n• ${p.n}\n  Cor: ${p.col}\n  Tamanho: ${size||"(ainda vou escolher)"}\n  Qtd: ${qty} × ${brl(p.p)} = ${brl(qty*p.p)}\n\nPode me passar o frete?`;
+  $("#buyNow").href=`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+}
+$("#addBag").onclick=()=>{
+  if(!size){ $("#pmHint").textContent="Escolha um tamanho para adicionar à sacola."; return; }
+  const key=cur.id+"|"+size; const ex=bag.find(i=>i.k===key);
+  if(ex) ex.q+=qty; else bag.push({k:key,id:cur.id,s:size,q:qty});
+  saveBag(); renderBag(); toast(`${cur.n} (${size}) foi pra sacola`); closeAll();
+};
+
+/* sacola */
+let bag=[]; try{ bag=JSON.parse(localStorage.getItem("eita_bag")||"[]").filter(i=>byId[i.id]); }catch(e){ bag=[]; }
+function saveBag(){ try{ localStorage.setItem("eita_bag",JSON.stringify(bag)); }catch(e){} }
+function renderBag(){
+  const n=bag.reduce((a,i)=>a+i.q,0); const c=$("#bagCount"); c.textContent=n; c.hidden=!n;
+  const el=$("#items"); el.innerHTML="";
+  if(!bag.length) el.innerHTML=`<p class="note" style="padding:24px 0;text-align:center">Sua sacola está vazia.<br>Escolha suas t-shirts e o tamanho de cada uma.</p>`;
+  let sub=0;
+  bag.forEach((i,k)=>{const p=byId[i.id]; sub+=p.p*i.q; const d=document.createElement("div"); d.className="it";
+    d.innerHTML=`<img src="${p.im[0]}" alt=""><div><b>${p.n}</b><span>${p.col} · Tam. ${i.s}</span><br><span>${i.q} × ${brl(p.p)}</span></div><div style="text-align:right"><b>${brl(p.p*i.q)}</b><button class="rm">Remover</button></div>`;
+    d.querySelector(".rm").onclick=()=>{bag.splice(k,1); saveBag(); renderBag();}; el.appendChild(d);});
+  $("#sub").textContent=brl(sub);
+  const lines=bag.map(i=>{const p=byId[i.id]; return `• ${p.n}\n  Cor: ${p.col} | Tam.: ${i.s} | Qtd: ${i.q} × ${brl(p.p)} = ${brl(p.p*i.q)}`;}).join("\n");
+  const msg=`Oi, EITA! Quero fazer este pedido pelo site:\n\n${lines}\n\nSubtotal: ${brl(sub)}\n\nPode confirmar a disponibilidade e me passar o frete?`;
+  const co=$("#checkout"); co.href=bag.length?`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`:`https://wa.me/${WA}`;
+}
+$("#bagBtn").onclick=()=>openLayer($("#bag"));
+renderBag();
+
+let tt; function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("on"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("on"),2600); }
+
+/* páginas de informação */
+const INFO={
+  trocas:`<h2 style="margin:0 0 12px;font-size:22px">Trocas e envios</h2><div class="desc"><ul>
+  <li>Os pedidos são fechados pelo WhatsApp (62) 98328-2222: você manda a sacola, a EITA! confirma peças, tamanhos e o valor do frete.</li>
+  <li>Enviamos para todo o Brasil. O prazo depende da forma de envio escolhida.</li>
+  <li>Precisa trocar o tamanho? Chame no WhatsApp com o número do seu pedido que a gente te orienta.</li></ul></div>`,
+  medidas:`<h2 style="margin:0 0 12px;font-size:22px">Tamanhos e medidas</h2><div class="desc"><ul>
+  <li>A grade vai do P ao G3 e muda de modelo para modelo. Na página de cada peça aparecem só os tamanhos disponíveis.</li>
+  <li>As medidas podem variar 2 cm para mais ou para menos.</li>
+  <li>Ficou em dúvida entre dois tamanhos? Mande suas medidas no WhatsApp que a gente ajuda.</li></ul></div>`
+};
+document.querySelectorAll("[data-open]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault(); $("#infoBody").innerHTML=INFO[a.dataset.open]; openLayer($("#info"));}));
+</script>
+</body>
+</html>
